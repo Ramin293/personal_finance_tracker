@@ -1,5 +1,26 @@
 from colorama import Fore, Back, Style
 
+def print_header(manager = None):
+    print("=" * 50)
+    print("            PERSONAL FINANCE TRACKER")
+    print("=" * 50)
+
+def print_menu():
+    print("\n             Chose an option:")
+    print("            1. Add income.")
+    print("            2. Add expense.")
+    print("            3. Show transaction.")
+    print("            4. Show category breakdown.")
+    print("            5. Show monthly summary.")
+    print("            6. Detect overspending.")
+    print("            7. Detect transaction.")
+    print("            8. Clear all data.")
+    print("            0. Exit.")
+    print("-" * 50)
+
+def pause():
+    input("\n Press enter to continue...")
+
 def clear_screen():
     print("\n" * 2)
 
