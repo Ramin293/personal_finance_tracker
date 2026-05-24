@@ -1,3 +1,4 @@
+from utils.validator import Validator
 from colorama import Fore, Back, Style
 
 def clear_screen():
@@ -10,7 +11,7 @@ def print_header(manager=None):
 
     if manager is not None:
         balance = manager.calculate_balance()
-        
+
         if balance > 0:
             color = Fore.GREEN
         elif balance < 0:
@@ -37,3 +38,16 @@ def print_menu():
 def pause():
     input("\n Press enter to continue...")
 
+def get_amount():
+    while True:
+        try:
+            amount = input("Enter amount: ").replace(",", ".")
+            amount = float(amount)
+
+            if Validator.validate_amount(amount):
+                return amount
+            else:
+                print("Amount must be greater than 0.")
+        
+        except ValueError:
+            print("Invalid amount. Please enter a number.")
