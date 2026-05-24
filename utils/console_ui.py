@@ -1,4 +1,5 @@
 from colorama import Fore, Back, Style
+from datetime import datetime
 
 def print_header(manager = None):
     print("=" * 50)
@@ -23,6 +24,17 @@ def pause():
 
 def clear_screen():
     print("\n" * 2)
+
+def get_date():
+    while True:
+        date = input("Enter date YYYY-MM-DD or press Enter for today: ")
+        if date.strip()=="":
+            return datetime.today().strftime("%Y-%m-%d")
+        
+        if Validator.validate_date(date):
+            return date
+
+        print("Invalid amount. Please enter a number.")
 
 def print_header(manager=None):
     print("=" * 50)
