@@ -1,6 +1,5 @@
 from colorama import Fore, Back, Style
 
-
 def clear_screen():
     print("\n" * 2)
 
