@@ -1,10 +1,27 @@
+from utils.validator import Validator
 from colorama import Fore, Back, Style
 from datetime import datetime
 
-def print_header(manager = None):
+def clear_screen():
+    print("\n" * 2)
+
+def print_header(manager=None):
     print("=" * 50)
     print("            PERSONAL FINANCE TRACKER")
     print("=" * 50)
+
+    if manager is not None:
+        balance = manager.calculate_balance()
+
+        if balance > 0:
+            color = Fore.GREEN
+        elif balance < 0:
+            color = Fore.RED
+        else:
+            color = Fore.YELLOW
+
+        print(f"Current balance: {color}{balance} tg{Style.RESET_ALL}")
+        print("=" * 50)
 
 def print_menu():
     print("\n             Chose an option:")
@@ -22,8 +39,19 @@ def print_menu():
 def pause():
     input("\n Press enter to continue...")
 
-def clear_screen():
-    print("\n" * 2)
+def get_amount():
+    while True:
+        try:
+            amount = input("Enter amount: ").replace(",", ".")
+            amount = float(amount)
+
+            if Validator.validate_amount(amount):
+                return amount
+            else:
+                print("Amount must be greater than 0.")
+        
+        except ValueError:
+            print("Invalid amount. Please enter a number.")
 
 def get_date():
     while True:
@@ -34,7 +62,7 @@ def get_date():
         if Validator.validate_date(date):
             return date
 
-        print("Invalid amount. Please enter a number.")
+        print("Invalid date format. Example: 2026-05-12")
 
 def print_header(manager=None):
     print("=" * 50)
