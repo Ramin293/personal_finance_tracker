@@ -1,4 +1,5 @@
 from models.income import Income
+from models.expense import Expense
 from utils.validator import Validator
 from datetime import datetime
 from colorama import Fore, Back, Style
@@ -99,3 +100,38 @@ def add_income(manager, file_handler):
     print(f"Description: {description}")
     print(f"Amount: {amount} tg")
     print(f"Date: {date}")
+    
+def add_expense(manager, file_handler):
+    clear_screen()
+    print_header()
+    print("ADD EXPENSE")
+    print("-" * 50)
+
+    description = input("Enter description: ")
+
+    while True:
+        category = input("Enter category: ")
+
+        if Validator.validate_category(category):
+            break
+
+        print("Category cannot be empty.")
+
+    amount = get_amount()
+    date = get_date()
+
+    transaction_id = generate_transaction_id(manager)
+
+    expense = Expense(transaction_id, amount, date, description, category)
+    manager.add_transaction(expense)
+
+    file_handler.save(manager.transaction)
+
+    print("\nExpense added successfully.")
+    print(f"ID: {expense.id}")
+    print(f"Description: {description}")
+    print(f"Category: {category}")
+    print(f"Amount: {amount} tg")
+    print(f"Date: {date}")
+
+    check_overspending_after_expense(manager, expense)
