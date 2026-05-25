@@ -61,7 +61,7 @@ def get_amount():
 def get_date():
     while True:
         date = input("Enter date YYYY-MM-DD or press Enter for today: ")
-        if date.strip()=="":
+        if date.strip() == "":
             return datetime.today().strftime("%Y-%m-%d")
         
         if Validator.validate_date(date):
@@ -73,7 +73,7 @@ def get_monthly_expenses(manager, month):
     total_expenses = 0
 
     for transaction in manager.transactions:
-        if isnstance(transaction, Expense) and get_month_from_date(transaction.date) == month:
+        if isinstance(transaction, Expense) and get_month_from_date(transaction.date) == month:
             total_expenses += transaction.amount
     return total_expenses
 
@@ -112,7 +112,7 @@ def print_overspending_message(total_expenses, limit, warning_percent):
 def check_overspending_after_expense(manager, expense):
     settings = BudgetSettings()
 
-    if settings.monthly_limit <=0:
+    if settings.monthly_limit <= 0:
         return
 
     month = get_month_from_date(expense.date)
@@ -134,7 +134,7 @@ def get_warning_percent():
             percent = input("Enter warning percent from limit: ").replace(",", ".")
             percent = float(percent)
 
-            if 0 < percent <=100:
+            if 0 < percent <= 100:
                 return percent
 
             print("Percent must be between 1 and 100.")
@@ -197,7 +197,7 @@ def add_income(manager, file_handler):
     transaction_id = generate_transaction_id(manager)
 
     income = Income(transaction_id, amount, date, description)
-    manager.add_transactions(income)
+    manager.add_transaction(income)
 
     file_handler.save(manager.transactions)
 
@@ -231,7 +231,7 @@ def add_expense(manager, file_handler):
     expense = Expense(transaction_id, amount, date, description, category)
     manager.add_transaction(expense)
 
-    file_handler.save(manager.transaction)
+    file_handler.save(manager.transactions)
 
     print("\nExpense added successfully.")
     print(f"ID: {expense.id}")
@@ -304,7 +304,7 @@ def show_filtered_transactions(manager, transaction_type):
         if month != "" and not transaction_date.startswith(month):
             continue
 
-        if transaction_type == "income" and not isinstance(transaction,Income):
+        if transaction_type == "income" and not isinstance(transaction, Income):
             continue
 
         if transaction_type == "expense" and not isinstance(transaction, Expense):
@@ -359,7 +359,7 @@ def show_category_breakdown(manager):
     bar_width = 50
 
     total = sum(breakdown.values())
-    sorted_categories = sorted(breakdown.items(), key = lambda x : x[1], everse = True)
+    sorted_categories = sorted(breakdown.items(), key = lambda x : x[1], reverse = True)
 
     bar = ""
 
@@ -372,7 +372,7 @@ def show_category_breakdown(manager):
     print("\n[" +bar+ "]")
     print()
 
-    for index, category_data in enumate(sorted_categories):
+    for index, category_data in enumerate(sorted_categories):
         category, amount = category_data
         percent = (amount/total) * 100
         color = colors[index%len(colors)]
@@ -395,37 +395,37 @@ def show_monthly_summary(manager):
         return
 
     total_income = 0
-    total_expences = 0
-    category_totals= {}
+    total_expenses = 0
+    category_totals = {}
 
-    for transaction in manager.ransactions:
+    for transaction in manager.transactions:
         transaction_date = str(transaction.date).strip()
 
         if transaction_date.startswith(month):
-            if instance(transaction, Income):
+            if isinstance(transaction, Income):
                 total_income += transaction.amount
 
             elif isinstance(transaction, Expense):
                 total_expenses += transaction.amount
-
                 category = transaction.category
                 category_totals[category] = category_totals.get(category, 0) + transaction.amount
 
-            balance = total_income - total_expenses
+    # Вынес блок вывода отчета из цикла, чтобы он печатался ОДИН раз
+    balance = total_income - total_expenses
 
-            print("\nMonthly report:")
-            print("-" * 50)
-            print(f"Month: {month}")
-            print(f"Total income: {total_income}tg")
-            print(f"Total expenses: {total_expenses} tg")
-            print(f"Balance for month: {balance} tg")
-            print("\nExpenses by category:")
+    print("\nMonthly report:")
+    print("-" * 50)
+    print(f"Month: {month}")
+    print(f"Total income: {total_income} tg")
+    print(f"Total expenses: {total_expenses} tg")
+    print(f"Balance for month: {balance} tg")
+    print("\nExpenses by category:")
 
-            if len(category_totals) == 0:
-                print("No expenses in this month.")
-            else:
-                for category, total in category_totals.items():
-                    print(f"{category}: {total} tg")
+    if len(category_totals) == 0:
+        print("No expenses in this month.")
+    else:
+        for category, total in category_totals.items():
+            print(f"{category}: {total} tg")
 
 def delete_transaction_by_id(manager, file_handler):
     clear_screen()
@@ -433,7 +433,7 @@ def delete_transaction_by_id(manager, file_handler):
     print("DELETE TRANSACTION BY ID")
     print("-" * 50)
 
-    if len (manager.transactions) == 0:
+    if len(manager.transactions) == 0:
         print("No transactions yet.")
         return
     
@@ -474,7 +474,7 @@ def delete_transaction_by_id(manager, file_handler):
 
     if confirm.lower() == "yes":
         manager.transactions.remove(transaction_to_delete)
-        file_handler.save(manager.transactons)
+        file_handler.save(manager.transactions)
         print("\nTransaction deleted successfully.")
         print("Data saved automatically.")
 
@@ -501,7 +501,7 @@ def clear_all_data(manager, file_handler):
         print("Operation cancelled.")
         return
     
-    manager.transaction.clear()
+    manager.transactions.clear()
     file_handler.save(manager.transactions)
 
     budget_settings = BudgetSettings()
