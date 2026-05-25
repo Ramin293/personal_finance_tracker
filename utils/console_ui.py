@@ -109,6 +109,25 @@ def print_overspending_message(total_expenses, limit, warning_percent):
     
     print("=" * 50)
 
+def check_overspending_after_expense(manager, expense):
+    settings = BudgetSettings()
+
+    if settings.monthly_limit <=0:
+        return
+
+    month = get_month_from_date(expense.date)
+
+    if month is None:
+        return
+
+    total_expenses = get_monthly_expenses(manager, month)
+
+    print_overspending_message(
+        total_expenses,
+        settings.monthly_limit,
+        settings.warning_percent
+    )
+
 def generate_transaction_id(manager):
     if len(manager.transactions) == 0:
         return 1
