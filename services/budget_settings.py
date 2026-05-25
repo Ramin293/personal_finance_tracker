@@ -1,7 +1,6 @@
 import json
 import os
 
-
 class BudgetSettings:
     def __init__(self, file_path="data/budget_settings.json"):
         self.file_path = file_path

@@ -172,7 +172,6 @@ def detect_overspending(manager):
     print(f"\nCurrent month check: {current_month}")
     print_overspending_message(total_expenses, limit, warning_percent)
 
-
 def generate_transaction_id(manager):
     if len(manager.transactions) == 0:
         return 1

@@ -1,4 +1,4 @@
-import Transaction
+from models.transaction import Transaction
 
 class Income(Transaction):
     def apply(self, balance):

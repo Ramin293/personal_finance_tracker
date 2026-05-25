@@ -1,4 +1,4 @@
-import Transaction
+from models.transaction import Transaction
 
 class Expense(Transaction):
     def __init__(self, transaction_id, amount, date, description, category):
