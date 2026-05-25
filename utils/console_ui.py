@@ -85,6 +85,30 @@ def get_month_from_date(date):
     
     return None
 
+def print_overspending_message(total_expenses, limit, warning_percent):
+    warning_amount = limit * warning_percent / 100
+    print("\n" + "=" * 50)
+    print("BUDGET CHECK")
+    print("=" * 50)
+    print(f"Monthly limit: {limit} tg")
+    print(f"Warning level: {warning_percent}% ({warning_amount} tg)")
+    print(f"Spent this month: {total_expenses} tg")
+
+    if total_expenses > limit:
+        overspent = total_expenses - limit
+        print(Fore.RED + f"Limit exceeded by {overspent} tg." + Style.RESET_ALL)
+
+    elif total_expenses >= warning_amount:
+        remaining = limit - total_expenses
+        print(Fore.YELLOW + f"Warning: you are close to your monthly limit." + Style.RESET_ALL)
+        print(Fore.YELLOW + f"Money left before limit: {remaining} tg." + Style.RESET_ALL)
+    
+    else:
+        remaining = limit - total_expenses
+        print(Fore.GREEN + f"You are within the limit. Money left: {remaining} tg." + Style.RESET_ALL)
+    
+    print("=" * 50)
+
 def generate_transaction_id(manager):
     if len(manager.transactions) == 0:
         return 1
