@@ -69,6 +69,22 @@ def get_date():
 
         print("Invalid date format. Example: 2026-05-12")
 
+def get_monthly_expenses(manager, month):
+    total_expenses = 0
+
+    for transaction in manager.transactions:
+        if isnstance(transaction, Expense) and get_month_from_date(transaction.date) == month:
+            total_expenses += transaction.amount
+    return total_expenses
+
+def get_month_from_date(date):
+    date = str(date).strip()
+
+    if len(date) >= 7 and date[4] == "-":
+        return date[:7]
+    
+    return None
+
 def generate_transaction_id(manager):
     if len(manager.transactions) == 0:
         return 1
@@ -229,15 +245,6 @@ def show_filtered_transactions(manager, transaction_type):
             print("No expense transactions found.")
         else:
             print("No transactions found.")
-
-def get_monthly_expenses(manager, month):
-    total_expenses = 0
-
-    for transaction in manager.transactions:
-        if isnstance(transaction, Expense) and get_month_from_date(transaction.date) == month:
-            total_expenses += transaction.amount
-    return total_expenses
-
 
 def show_category_breakdown(manager):
     clear_screen()
