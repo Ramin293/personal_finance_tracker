@@ -227,3 +227,57 @@ def show_filtered_transactions(manager, transaction_type):
             print("No expense transactions found.")
         else:
             print("No transactions found.")
+
+def delete_transaction_by_id(manager, file_handler):
+    clear_screen()
+    print_header()
+    print("DELETE TRANSACTION BY ID")
+    print("-" * 50)
+
+    if len (manager.transactions) == 0:
+        print("No transactions yet.")
+        return
+    
+    try:
+        transaction_id = int(input("Enter transaction ID to delete: "))
+    except ValueError:
+        print("Invalid ID. Please enter a number.")
+        return
+    
+    transaction_to_delete = None
+
+    for transaction in manager.transactions:
+        if transaction.id == transaction_id:
+            transaction_to_delete = transaction
+            break
+
+    if transaction_to_delete is None:
+        print(f"No transaction found with ID {transaction_id}.")
+        return
+    
+    print("\nTransaction found: ")
+    print("-" * 50)
+
+    if isinstance(transaction_to_delete, Income):
+        print(f"ID {transaction_to_delete.id} | INCOME")
+        print(f"Description: {transaction_to_delete.description}")
+        print(f"Amount: +{transaction_to_delete.amount} tg")
+        print(f"Date: {transaction_to_delete.date}")
+
+    elif isinstance(transaction_to_delete, Expense):
+        print(f"ID {transaction_to_delete.id} | EXPENSE")
+        print(f"Description: {transaction_to_delete.description}")
+        print(f"Category: {transaction_to_delete.category}")
+        print(f"Amount: -{transaction_to_delete.amount} tg")
+        print(f"Date: {transaction_to_delete.date}")
+
+    confirm = input("\nAre you sure you want to delete this transaction? yes/no: ")
+
+    if confirm.lower() == "yes":
+        manager.transactions.remove(transaction_to_delete)
+        file_handler.save(manager.transactons)
+        print("\nTransaction deleted successfully.")
+        print("Data saved automatically.")
+
+    else:
+        print("\nAction cancelled")
