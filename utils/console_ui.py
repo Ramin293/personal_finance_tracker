@@ -141,6 +141,37 @@ def get_warning_percent():
         except ValueError:
             print("Invalid percent. Please enter a number.")
 
+def detect_overspending(manager):
+    clear_screen()
+    print_header()
+    print("DETECT OVERSPENDING SETTINGS")
+    print("-" * 50)
+
+    settings = BudgetSettings()
+
+    if settings.monthly_limit > 0:
+        print(f"Current monthly limit: {settings.monthly_limit} tg")
+        print(f"Current warning percent: {settings.warning_percent}%")
+    else:
+        print("Monthly limit is not set yet.")
+
+    print("-" * 50)
+
+    limit = get_amount()
+    warning_percent = get_warning_percent()
+
+    settings.update_settings(limit, warning_percent)
+
+    print("\nOverspending settings saved successfully.")
+    print(f"Monthly limit: {limit} tg")
+    print(f"Warning percent: {warning_percent}%")
+
+    current_month = datetime.today().strftime("%Y-%m")
+    total_expenses = get_monthly_expenses(manager, current_month)
+
+    print(f"\nCurrent month check: {current_month}")
+    print_overspending_message(total_expenses, limit, warning_percent)
+
 
 def generate_transaction_id(manager):
     if len(manager.transactions) == 0:
