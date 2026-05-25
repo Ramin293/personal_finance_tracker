@@ -230,6 +230,54 @@ def show_filtered_transactions(manager, transaction_type):
         else:
             print("No transactions found.")
 
+def show_category_breakdown(manager):
+    clear_screen()
+    print_header()
+    print("CATEGORY BREAKDOWN")
+    print("-" * 50)
+
+    breakdown = manager.category_breakdown()
+
+    if len(breakdown) == 0:
+        print("No expenses yet.")
+        return
+
+    colors = [
+        Back.RED,
+        Back.YELLOW,
+        Back.GREEN,
+        Back.BLUE,
+        Back.MAGENTA,
+        Back.CYAN
+    ]
+
+    reset = Style.RESET_ALL
+    bar_width = 50
+
+    total = sum(breakdown.values())
+    sorted_categories = sorted(breakdown.items(), key = lambda x : x[1], everse = True)
+
+    bar = ""
+
+    for index, category_data in enumerate(sorted_categories):
+        category, amount = category_data
+        blocks = round((amount/total) * bar_width)
+        color = colors[index%len(colors)]
+        bar += color + " " * blocks+reset 
+
+    print("\n[" +bar+ "]")
+    print()
+
+    for index, category_data in enumate(sorted_categories):
+        category, amount = category_data
+        percent = (amount/total) * 100
+        color = colors[index%len(colors)]
+
+        print(f"{color} {reset}{category:<20} {percent:>5.1f} % {amount:>10,.0f} tg")
+
+    print("-" * 50)
+    print(f"{'TOTAL':<22} 100.0% {total:>10,.0f} tg")
+
 def delete_transaction_by_id(manager, file_handler):
     clear_screen()
     print_header()
