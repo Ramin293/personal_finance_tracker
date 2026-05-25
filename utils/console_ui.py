@@ -1,3 +1,4 @@
+from models.income import Income
 from utils.validator import Validator
 from datetime import datetime
 from colorama import Fore, Back, Style
@@ -65,7 +66,7 @@ def get_date():
 
         print("Invalid date format. Example: 2026-05-12")
 
-def generate_transactiond_id(manager):
+def generate_transaction_id(manager):
     if len(manager.transactions) == 0:
         return 1
     
@@ -76,3 +77,25 @@ def generate_transactiond_id(manager):
             max_id = transaction.id
 
     return max_id + 1
+
+def add_income(manager, file_handler):
+    clear_screen()
+    print_header()
+    print("ADD INCOME")
+    print("-" * 50)
+
+    description = input("Enter description: ")
+    amount = get_amount()
+    date = get_date().strip()
+    transaction_id = generate_transaction_id(manager)
+
+    income = Income(transaction_id, amount, date, description)
+    manager.add_transactions(income)
+
+    file_handler.save(manager.transactions)
+
+    print("\nIncome added successfully.")
+    print(f"ID: {income.id}")
+    print(f"Description: {description}")
+    print(f"Amount: {amount} tg")
+    print(f"Date: {date}")
