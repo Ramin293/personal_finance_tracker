@@ -230,6 +230,15 @@ def show_filtered_transactions(manager, transaction_type):
         else:
             print("No transactions found.")
 
+def get_monthly_expenses(manager, month):
+    total_expenses = 0
+
+    for transaction in manager.transactions:
+        if isnstance(transaction, Expense) and get_month_from_date(transaction.date) == month:
+            total_expenses += transaction.amount
+    return total_expenses
+
+
 def show_category_breakdown(manager):
     clear_screen()
     print_header()
@@ -322,7 +331,6 @@ def show_monthly_summary(manager):
             else:
                 for category, total in category_totals.items():
                     print(f"{category}: {total} tg")
-
 
 def delete_transaction_by_id(manager, file_handler):
     clear_screen()
