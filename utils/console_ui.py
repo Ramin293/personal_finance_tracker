@@ -136,6 +136,36 @@ def add_expense(manager, file_handler):
 
     check_overspending_after_expense(manager, expense)
 
+def show_transactions_menu(manager):
+    clear_screen()
+    print_header()
+    print("SHOW TRANSACTIONS")
+    print("-" * 50)
+
+    print("Choose transaction type: ")
+    print("1. Income")
+    print("2. Expense")
+    print("3. All transactions")
+    print("0. Back")
+    print("-" * 50)
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        show_filtered_transactions(manager, "income")
+
+    elif choice == "2":
+        show_filtered_transactions(manager, "expense")
+
+    elif choice == "3":
+        show_filtered_transactions(manager, "all")
+
+    elif choice == "0":
+        return
+    
+    else:
+        print("\nInvalid choice")
+
 def show_filtered_transactions(manager, transaction_type):
     clear_screen()
     print_header()
