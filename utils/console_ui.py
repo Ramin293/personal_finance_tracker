@@ -128,6 +128,20 @@ def check_overspending_after_expense(manager, expense):
         settings.warning_percent
     )
 
+def get_warning_percent():
+    while True:
+        try:
+            percent = input("Enter warning percent from limit: ").replace(",", ".")
+            percent = float(percent)
+
+            if 0 < percent <=100:
+                return percent
+
+            print("Percent must be between 1 and 100.")
+        except ValueError:
+            print("Invalid percent. Please enter a number.")
+
+
 def generate_transaction_id(manager):
     if len(manager.transactions) == 0:
         return 1
