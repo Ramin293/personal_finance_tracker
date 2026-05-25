@@ -3,6 +3,7 @@ from models.expense import Expense
 from utils.validator import Validator
 from datetime import datetime
 from colorama import Fore, Back, Style
+import os
 
 
 def clear_screen():
@@ -281,3 +282,10 @@ def delete_transaction_by_id(manager, file_handler):
 
     else:
         print("\nAction cancelled")
+
+def prepare_data_file(data_file):
+    os.makedirs("data", exist_ok = True)
+
+    if not os.path.exists(data_file):
+        with open(data_file, "w") as file:
+            file.write("[]")
