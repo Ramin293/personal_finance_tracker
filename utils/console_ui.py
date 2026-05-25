@@ -278,6 +278,52 @@ def show_category_breakdown(manager):
     print("-" * 50)
     print(f"{'TOTAL':<22} 100.0% {total:>10,.0f} tg")
 
+def show_monthly_summary(manager):
+    clear_screen()
+    print_header()
+    print("MONTHLY SUMMARY")
+    print("-" * 50)
+
+    month = input("Enter month in format YYYY-MM: ").strip()
+
+    if len(month) != 7 or month[4] != "-":
+        print("Invalid month format. Example: 2026-05")
+        return
+
+    total_income = 0
+    total_expences = 0
+    category_totals= {}
+
+    for transaction in manager.ransactions:
+        transaction_date = str(transaction.date).strip()
+
+        if transaction_date.startswith(month):
+            if instance(transaction, Income):
+                total_income += transaction.amount
+
+            elif isinstance(transaction, Expense):
+                total_expenses += transaction.amount
+
+                category = transaction.category
+                category_totals[category] = category_totals.get(category, 0) + transaction.amount
+
+            balance = total_income - total_expenses
+
+            print("\nMonthly report:")
+            print("-" * 50)
+            print(f"Month: {month}")
+            print(f"Total income: {total_income}tg")
+            print(f"Total expenses: {total_expenses} tg")
+            print(f"Balance for month: {balance} tg")
+            print("\nExpenses by category:")
+
+            if len(category_totals) == 0:
+                print("No expenses in this month.")
+            else:
+                for category, total in category_totals.items():
+                    print(f"{category}: {total} tg")
+
+
 def delete_transaction_by_id(manager, file_handler):
     clear_screen()
     print_header()
