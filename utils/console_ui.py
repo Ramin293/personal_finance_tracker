@@ -1,6 +1,7 @@
 from models.income import Income
 from models.expense import Expense
 from utils.validator import Validator
+from services.budget_settings import BudgetSettings
 from datetime import datetime
 from colorama import Fore, Back, Style
 import os
@@ -289,3 +290,24 @@ def prepare_data_file(data_file):
     if not os.path.exists(data_file):
         with open(data_file, "w") as file:
             file.write("[]")
+
+def clear_all_data(manager, file_handler):
+    clear_screen()
+    print_header(manager)
+
+    print("CLEAR ALL DATA")
+    print("-" * 50)
+
+    confirm = input("Are you sure you want to delete all data? (yes/no): ").strip().lower()
+
+    if confirm != "yes":
+        print("Operation cancelled.")
+        return
+    
+    manager.transaction.clear()
+    file_handler.save(manager.transactions)
+
+    budget_settings = BudgetSettings()
+    budget_settings.update_settings(0, 80)
+
+    print("All transactions and overspending settings were cleared successfully.")
