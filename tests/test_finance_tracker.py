@@ -40,5 +40,16 @@ class TestTransaction(unittest.TestCase):
         self.assertEqual(income.amount, 100000)
         self.assertEqual(income.date, "2026-05-12")
 
+    def test_expense_data_is_saved_correctly(self):
+        manager = FinanceManager()
+        transaction_id = generate_transaction_id(manager)
+        expense = Expense(transaction_id, 5000, "2026-05-12", "KFC", "Food")
+
+        self.assertEqual(expense.id, 1)
+        self.assertEqual(expense.description, "KFC")
+        self.assertEqual(expense.category, "Food")
+        self.assertEqual(expense.amount, 5000)
+        self.assertEqual(expense.date, "2026-05-12")
+
 if __name__ == "__main__":
     unittest.main()
