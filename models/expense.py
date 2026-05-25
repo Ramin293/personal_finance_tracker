@@ -6,7 +6,7 @@ class Expense(Transaction):
         self.category = category
     
     def apply(self, balance):
-        return self.amount - balance
+        return balance - self.amount
     
     def to_dict(self):
         data = super().to_dict()

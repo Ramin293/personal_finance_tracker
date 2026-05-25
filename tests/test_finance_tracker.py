@@ -22,5 +22,13 @@ class TestTransaction(unittest.TestCase):
         
         self.assertEqual(150000, result)
 
+    def test_expense_apply_substracts_money_from_balance(self):
+        manager = FinanceManager()
+        transaction_id = generate_transaction_id(manager)
+        expense = Expense(transaction_id, 5000, "2026-05-12", "KFC", "Food")
+        result = expense.apply(50000)
+
+        self.assertEqual(result, 45000)
+
 if __name__ == "__main__":
     unittest.main()
