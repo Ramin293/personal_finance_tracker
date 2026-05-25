@@ -135,3 +135,65 @@ def add_expense(manager, file_handler):
     print(f"Date: {date}")
 
     check_overspending_after_expense(manager, expense)
+
+def show_filtered_transactions(manager, transaction_type):
+    clear_screen()
+    print_header()
+
+    if transaction_type == "income":
+        print("INCOME TRANSACTIONS")
+    elif transaction_type == "expense":
+        print("EXPENSE TRANSACTIONS")
+    elif transaction_type == "all":
+        print("ALL TRANSACTIONS")
+
+    print("-" * 50)
+
+    if len(manager.transactions) == 0:
+        print("No transactions yet.")
+        return
+    
+    month = input("Enter month in format YYYY-MM or press Enter to show all: ").strip()
+
+    if month != "":
+        if len(month) != 7 or month[4] != "-":
+            print("Invalid month format. Example: 2025-05")
+            return
+        
+    found = False
+
+    for transaction in manager.transactions:
+        transaction_date = str(transaction.date).strip()
+
+        if month != "" and not transaction_date.startswith(month):
+            continue
+
+        if transaction_type == "income" and not isinstance(transaction,Income):
+            continue
+
+        if transaction_type == "expense" and not isinstance(transaction, Expense):
+            continue
+
+        found = True  
+        if isinstance(transaction, Income):
+            print(f"ID {transaction.id} | INCOME")
+            print(f"Date: {transaction.date}")
+            print(f"Description: {transaction.description}")
+            print(f"Amount: +{transaction.amount} tg")
+
+        elif isinstance(transaction, Expense):
+            print(f"ID {transaction.id} | EXPENSE")
+            print(f"Date: {transaction.date}")
+            print(f"Description: {transaction.description}")
+            print(f"Category: {transaction.category}")
+            print(f"Amount: -{transaction.amount} tg")
+
+        print("-" * 50)
+
+    if not found:
+        if transaction_type == "income":
+            print("No income transactions found.")
+        elif transaction_type == "expense":
+            print("No expense transactions found.")
+        else:
+            print("No transactions found.")
