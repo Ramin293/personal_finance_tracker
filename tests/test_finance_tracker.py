@@ -67,5 +67,16 @@ class TestFinanceManager(unittest.TestCase):
 
         self.assertEqual(second_id, 2)
 
+    def test_add_transaction(self):
+        manager = FinanceManager()
+        transaction_id = generate_transaction_id(manager)
+
+        income = Income(transaction_id, 100000, "2026-05-13", "Salary")
+        manager.add_transaction(income)
+
+        self.assertEqual(len(manager.transactions), 1)
+        self.assertEqual(manager.transactions[0].id, 1)
+        self.assertEqual(manager.transactions[0].description, "Salary")
+
 if __name__ == "__main__":
     unittest.main()
