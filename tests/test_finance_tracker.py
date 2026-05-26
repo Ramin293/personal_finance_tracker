@@ -78,5 +78,19 @@ class TestFinanceManager(unittest.TestCase):
         self.assertEqual(manager.transactions[0].id, 1)
         self.assertEqual(manager.transactions[0].description, "Salary")
 
+    def test_calculate_balance_with_income_and_expense(self):
+        manager = FinanceManager()
+        income_id = generate_transaction_id(manager)
+        income = Income(income_id, 100000, "2026-05-13", "Salary")
+        manager.add_transaction(income)
+
+        expense_id = generate_transaction_id(manager)
+        expense = Expense(expense_id, 5000, "2026-05-14", "KFC", "Food")
+        manager.add_transaction(expense)
+
+        balance = manager.calculate_balance()
+
+        self.assertEqual(balance, 95000)
+
 if __name__ == "__main__":
     unittest.main()
