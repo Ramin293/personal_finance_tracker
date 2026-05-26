@@ -57,6 +57,15 @@ class TestFinanceManager(unittest.TestCase):
         transaction_id = generate_transaction_id(manager)
 
         self.assertEqual(1, transaction_id)
+    
+    def test_generate_transaction_id_after_existing_transaction(self):
+        manager = FinanceManager()
+        first_id = generate_transaction_id(manager)
+        income = Income(first_id, 100000, "2026-05-13", "Salary")
+        manager.add_transaction(income)
+        second_id = generate_transaction_id(manager)
+
+        self.assertEqual(second_id, 2)
 
 if __name__ == "__main__":
     unittest.main()
