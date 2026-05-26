@@ -51,5 +51,12 @@ class TestTransaction(unittest.TestCase):
         self.assertEqual(expense.amount, 5000)
         self.assertEqual(expense.date, "2026-05-12")
 
+class TestFinanceManager(unittest.TestCase):
+    def test_generate_transaction_id_for_empty_list(self):
+        manager = FinanceManager()
+        transaction_id = generate_transaction_id(manager)
+
+        self.assertEqual(1, transaction_id)
+
 if __name__ == "__main__":
     unittest.main()
