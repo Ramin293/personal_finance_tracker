@@ -127,5 +127,59 @@ class TestFinanceManager(unittest.TestCase):
         self.assertIsNone(transaction_to_delete)
         self.assertEqual(len(manager.transactions), 1)
 
+class TestFileHandler(unittest.TestCase):
+    def test_save_and_load_transactions(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "transactions.json")
+            file_handler = FileHandler(file_path)
+
+            manager = FinanceManager()
+
+            income_id = generate_transaction_id(manager)
+            income = Income(income_id, 100000, "2026-05-18", "Salary")
+            manager.add_transaction(income)
+
+            expense_id = generate_transaction_id(manager)
+            expense = Expense(expense_id, 5000, "2026-05-18", "KFC", "Food")
+            manager.add_transaction(expense)
+
+            file_handler.save(manager.transactions)
+            loaded_transactions = file_handler.load()
+
+            self.assertEqual(len(loaded_transactions), 2)
+
+            self.assertIsInstance(loaded_transactions[0], Income)
+            self.assertIsInstance(loaded_transactions[1], Expense)
+
+            self.assertEqual(loaded_transactions[0].id, 1)
+            self.assertEqual(loaded_transactions[1].id, 2)
+
+            self.assertEqual(loaded_transactions[0].description, "Salary")
+            self.assertEqual(loaded_transactions[1].description, "KFC")
+            self.assertEqual(loaded_transactions[1].category, "Food")
+
+class TestBudgetSettings(unittest.TestCase):
+    def test_budget_settings_save_and_load(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "budget_settings.json")
+            settings = BudgetSettings(file_path)
+            settings.update_settings(150000, 80)
+
+            loaded_settings = BudgetSettings(file_path)
+
+            self.assertEqual(loaded_settings.monthly_limit, 150000)
+            self.assertEqual(loaded_settings.warning_percent, 80)
+
+    def test_budget_settings_can_be_reset(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "budget_settings.json")
+
+            settings = BudgetSettings(file_path)
+            settings.update_settings(200000, 90)
+            settings.update_settings(0, 80)
+
+            self.assertEqual(settings.monthly_limit, 0)
+            self.assertEqual(settings.warning_percent, 80)
+
 if __name__ == "__main__":
     unittest.main()

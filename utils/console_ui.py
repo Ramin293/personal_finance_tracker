@@ -36,7 +36,7 @@ def print_menu():
     print("            4. Show category breakdown.")
     print("            5. Show monthly summary.")
     print("            6. Detect overspending.")
-    print("            7. Detect transaction.")
+    print("            7. Delete transaction.")
     print("            8. Clear all data.")
     print("            0. Exit.")
     print("-" * 50)

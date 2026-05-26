@@ -8,7 +8,7 @@ class FileHandler:
     def __init__(self,filename):
         self.filename = filename
         
-    def save(self, transaction):
+    def save(self, transactions):
         folder = os.path.dirname(self.filename)
 
         if folder and not os.path.exists(folder):
