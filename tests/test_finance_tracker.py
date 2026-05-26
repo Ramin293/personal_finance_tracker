@@ -92,5 +92,23 @@ class TestFinanceManager(unittest.TestCase):
 
         self.assertEqual(balance, 95000)
 
+    def test_delete_transaction_by_id(self):
+        manager = FinanceManager()
+        transaction_id = generate_transaction_id(manager)
+        income = Income(transaction_id, 100000, "2026-05-18", "Salary")
+        manager.add_transaction(income)
+
+        transaction_to_delete = None
+
+        for transaction in manager.transactions:
+            if transaction.id == transaction_id:
+                transaction_to_delete = transaction
+                break
+        
+        if transaction_to_delete is not None:
+            manager.transactions.remove(transaction_to_delete)
+
+        self.assertEqual(len(manager.transactions), 0)
+
 if __name__ == "__main__":
     unittest.main()
