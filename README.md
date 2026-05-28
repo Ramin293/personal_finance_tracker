@@ -1,5 +1,10 @@
 # Personal Finance Tracker
 
+1. Ramin - models, validator, tests
+2. Arnur - services
+3. Arai - console_ui
+4. Sulukhan - console_ui
+
 ## 1.Project overview
 
 Personal finance tracker is a console python application for managing income, expense, monthly summary, category statistics and budget limits.

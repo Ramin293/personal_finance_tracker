@@ -1,1 +1,41 @@
-[]
+[
+    {
+        "id": 1,
+        "amount": 250000.0,
+        "date": "2026-06-01",
+        "description": "Salary",
+        "type": "income"
+    },
+    {
+        "id": 2,
+        "amount": 5000.0,
+        "date": "2026-05-13",
+        "description": "Macdonalds",
+        "type": "expense",
+        "category": "food"
+    },
+    {
+        "id": 3,
+        "amount": 10000.0,
+        "date": "2026-05-01",
+        "description": "kfc",
+        "type": "expense",
+        "category": "food"
+    },
+    {
+        "id": 4,
+        "amount": 500.0,
+        "date": "2026-05-13",
+        "description": "kfc",
+        "type": "expense",
+        "category": "food"
+    },
+    {
+        "id": 5,
+        "amount": 5000.0,
+        "date": "2026-05-13",
+        "description": "food",
+        "type": "expense",
+        "category": "food"
+    }
+]
